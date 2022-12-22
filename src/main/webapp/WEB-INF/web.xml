@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-  <display-name>Mk_JD2_92_22 Pizza</display-name>
+  <display-name>by.it_academy.jd2.Mk_JD2_92_22.pizziria</display-name>
 
   <filter>
     <filter-name>CharsetFilter</filter-name>
-    <filter-class>by.it_academy.jd2.Mk_JD2_92_22.pizza.controllers.filters.CharsetFilter</filter-class>
+    <filter-class>by.it_academy.jd2.Mk_JD2_92_22.pizziria.controllers.filters.CharsetFilter</filter-class>
   </filter>
 
   <filter-mapping>

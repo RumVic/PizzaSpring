@@ -2,17 +2,20 @@ package by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity;
 
 import by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity.api.IPizzaInfo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import java.time.LocalDateTime;
 import java.util.Objects;
 @Entity
 public class PizzaInfo implements IPizzaInfo {
     @Id
     private long id;
-
+    @Column(name = "dt_create")
     private LocalDateTime dtCreate;
-
+    @Column(name = "dt_update")
+    @Version
     private LocalDateTime dtUpdate;
 
     private String name;

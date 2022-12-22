@@ -3,10 +3,7 @@ package by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity;
 
 import by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity.api.IMenu;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -14,15 +11,17 @@ import java.util.Objects;
 @Entity
 public class Menu implements IMenu {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "dt_create")
     private LocalDateTime dtCreate;
+    @Version
     @Column(name = "dt_update")
     private LocalDateTime dtUpdate;
     private String name;
     @Column(name = "enable")
     private boolean enabled;
-    @OneToMany
+    @OneToMany(mappedBy = "menu")
     private List<MenuRow> items;
 
     public Menu() {

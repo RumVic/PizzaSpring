@@ -2,9 +2,7 @@ package by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity;
 
 import by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity.api.IMenuRow;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,17 +10,18 @@ import java.util.Objects;
 public class MenuRow implements IMenuRow {
     @Id
     private long id;
-
+    @Column(name = "dt_create")
     private LocalDateTime dtCreate;
-
+    @Column(name = "dt_update")
+    @Version
     private LocalDateTime dtUpdate;
-
     private long infoNumber;
-
     private double price;
 
     private long menu;
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    @Access(AccessType.PROPERTY)
     private PizzaInfo pizzaInfo;
 
     public MenuRow() {
