@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/jpa
+        https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <mvc:annotation-driven/>
+    <tx:annotation-driven/>
+    <jpa:repositories base-package="by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage"
+                      entity-manager-factory-ref="myEmf"/>
+
+    <context:component-scan base-package="by.it_academy.jd2.Mk_JD2_92_22.pizziria.controllers"/>
+
+    <bean name="pizzaInfoService" class="by.it_academy.jd2.Mk_JD2_92_22.pizziria.service.entity.PizzaInfoService">
+        <constructor-arg name="pizzaInfoDao" ref="IPizzaInfoDao"/>
+    </bean>
+
+
+    <bean id="menuService" class="by.it_academy.jd2.Mk_JD2_92_22.pizziria.service.entity.MenuService">
+        <constructor-arg name="menuDao" ref="IMenuDao"/>
+    </bean>
+
+    <bean id="menuRowService" class="by.it_academy.jd2.Mk_JD2_92_22.pizziria.service.entity.MenuRowService">
+        <constructor-arg name="menuRowDao" ref="IMenuRowDao"/>
+    </bean>
+
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="org.postgresql.Driver"/>
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost:5433/pizziria"/>
+        <property name="user" value="postgres"/>
+        <property name="password" value="postgres"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="acquireIncrement" value="5"/>
+        <property name="maxPoolSize" value="20"/>
+        <property name="maxStatements" value="180"/>
+    </bean>
+
+    <bean id="myEmf"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="by.it_academy.jd2.Mk_JD2_92_22.pizziria.storage.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
+                <prop key="hibernate.default_schema">app</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="myEmf"/>
+    </bean>
+
+    <bean id="persistenceExceptionTranslationPostProcessor" class=
+            "org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper">
+            <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+                  p:autoDetectFields="false"
+                  p:autoDetectGettersSetters="false">
+            </bean>
+        </property>
+    </bean>
+</beans>
